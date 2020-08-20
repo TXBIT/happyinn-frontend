@@ -1,0 +1,7 @@
+<img *ngIf="!isActiveInput" class="editable-img" [src]="entity[fieldName]" />
+<hpi-image-upload
+  (imageUploaded)="handleImageUpload($event)"
+  (imageError)="handleImageError()"
+  (imageLoadedToContainer)="handleImageLoad()"
+  (croppingCancelled)="cancel()"
+></hpi-image-upload>

@@ -1,0 +1,102 @@
+<div class="booking">
+  <h3 class="booking-price">
+    ${{ rental.dailyRate }} <span class="booking-per-night">per night</span>
+  </h3>
+  <hr />
+  <div *ngIf="auth.isAuthenticated()">
+    <form #bookingForm="ngForm">
+      <label>Dates</label>
+      <input
+        type="text"
+        class="form-control daterangepicker-input"
+        name="daterangeInput"
+        daterangepicker
+        [options]="options"
+        (selected)="selectedDate($event, daterange)"
+      />
+
+      <div class="form-group">
+        <label for="guests">Guests</label>
+        <input
+          [(ngModel)]="newBooking.guests"
+          name="guests"
+          type="number"
+          min="1"
+          oninput="validity.valid||(value='');"
+          class="form-control"
+          id="guests"
+          aria-describedby="emailHelp"
+          required
+        />
+      </div>
+    </form>
+
+    <button
+      (click)="openConfirmation(content)"
+      [disabled]="
+        !bookingForm.form.valid || !newBooking.startAt || !newBooking.endAt
+      "
+      class="btn btn-danger btn-confirmation btn-block"
+    >
+      Reserve now
+    </button>
+    <hr />
+  </div>
+  <div *ngIf="!auth.isAuthenticated()" class="should-login">
+    <a routerLink="/login" class="btn btn-confirmation btn-hpi"
+      >Login and book this place today</a
+    >
+  </div>
+  <p class="booking-note-title">People are interested into this place</p>
+  <p class="booking-note-text">
+    More than 50 people have viewed this rental in the last month.
+  </p>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Booking Details Confirmation
+      <p>{{ newBooking.startAt }} to {{ newBooking.endAt }}</p>
+    </h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <em>{{ newBooking.days }}</em> nights / <em>${{ rental.dailyRate }}</em> per
+    night
+    <p>
+      Guests: <em>{{ newBooking.guests }}</em>
+    </p>
+    <p>
+      Price: <em>${{ newBooking.totalPrice }}</em>
+    </p>
+    <hpi-payment (paymentConfirmation)="onPaymentConfirmation($event)"></hpi-payment>
+    <p>Confirm your booking for the seleted days?</p>
+  </div>
+
+  <div *ngIf="errors.length > 0" class="alert alert-danger confirmation-error">
+    <p *ngFor="let error of errors">
+      {{ error.message }}
+    </p>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-hpi" (click)="addNewBooking()" [disabled]="!newBooking.paymentToken">
+      Confirm
+    </button>
+    <button
+      type="button"
+      class="btn btn-hpi"
+      (click)="modal.close('Close click')"
+    >
+      Close
+    </button>
+  </div>
+</ng-template>

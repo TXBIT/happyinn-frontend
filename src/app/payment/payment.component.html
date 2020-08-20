@@ -1,0 +1,32 @@
+<form [ngClass]="isCheckingCard ? 'checking' : ''">
+
+  <div class="group">
+    <label>
+      <span>Card Number</span>
+      <div #cardNumber class="field"></div>
+    </label>
+
+    <label>
+      <span>Expired Date</span>
+      <div #expiredDate class="field"></div>
+    </label>
+
+    <label>
+      <span>Card CVC</span>
+      <div #cardCvc class="field"></div>
+    </label>
+  </div>
+
+  <div class="result">
+      <div *ngIf='error' class="error">
+        {{ error }}
+      </div>
+  </div>
+
+  <button [disabled]="!isValidCard()" (click)="onSubmit()" type="button">Submit</button>
+
+  <div *ngIf="token" class="success alert alert-success">
+    Your card is accepted successfully!
+  </div>
+
+</form>

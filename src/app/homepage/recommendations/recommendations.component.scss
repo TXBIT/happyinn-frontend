@@ -1,0 +1,27 @@
+.example-card {
+    width: 200px;
+    height: 250px;
+    padding-bottom: 0
+  }
+
+  .container {
+    padding: 0%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  h3 {
+    font-weight: 700; 
+    margin-top: 25px;
+  }
+
+  img {
+    height: 85%;
+  }
+
+  h5 {
+    text-align: center;
+    color: gray;
+  }

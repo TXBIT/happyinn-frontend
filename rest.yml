@@ -1,0 +1,41 @@
+ApiGatewayRestApi:
+  Type: AWS::ApiGateway::RestApi
+  Properties:
+    Name: hello-api
+ApiGatewayV1Resource:
+  Type: AWS::ApiGateway::Resource
+  Properties:
+    ParentId:
+      Fn::GetAtt: [ ApiGatewayRestApi , RootResourceId]
+    PathPart: v1
+    RestApiId: !Ref ApiGatewayRestApi
+ApiGatewayHelloResource:
+  Type: AWS::ApiGateway::Resource
+  Properties:
+    ParentId: !Ref ApiGatewayV1Resource
+    PathPart: hello
+    RestApiId: !Ref ApiGatewayRestApi
+ApiGatewayCreateResourceGetMethod:
+  Type: AWS::ApiGateway::Method
+  Properties:
+    AuthorizationType: NONE
+    HttpMethod: GET
+    Integration:
+      Type: MOCK
+      RequestTemplates:
+        application/json: '{"statusCode":200}'
+      IntegrationResponses:
+        - StatusCode: 200
+          ResponseTemplates:
+            application/json: '{"message":"hello world"}'
+    MethodResponses:
+      - StatusCode: 200
+    ResourceId: !Ref ApiGatewayHelloResource
+    RestApiId: !Ref ApiGatewayRestApi
+ApiGatewayDeployment:
+  Type: AWS::ApiGateway::Deployment
+  DependsOn:
+    - ApiGatewayCreateResourceGetMethod
+  Properties:
+    RestApiId: !Ref ApiGatewayRestApi
+    StageName: prod

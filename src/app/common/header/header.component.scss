@@ -1,0 +1,54 @@
+@import 'variables';
+
+.navbar {
+  padding: 20px;
+  margin-bottom: 40px;
+
+  .hpi-search {
+    height: 50px;
+    width: 300px;
+  }
+
+  .navbar-brand {
+    margin-right: 30px;
+    font-size: 30px;
+    letter-spacing: 1px;
+    color: $main-color;
+    font-weight: 500;
+
+    img {
+      margin-top: 15px;
+      height: 20px;
+    }
+  }
+
+  .nav-item {
+    font-size: 14px;
+  }
+
+  .dropdown-item {
+    font-size: 14px;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: $main-color !important;
+    }
+  }
+}
+
+.search-section {
+  display: flex;
+  justify-content: space-between;
+}
+mat-form-field .mat-form-field-wrapper {
+  padding-bottom: 0em;
+}
+
+button {
+  height: 63px;
+}
+
+.date-picker {
+  color: grey;
+}

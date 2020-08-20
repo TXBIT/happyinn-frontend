@@ -1,0 +1,230 @@
+<div *ngIf="user" class="container bootstrap snippet">
+  <div class="row">
+    <div class="col-sm-8">
+      <h1>{{ user.username }}</h1>
+    </div>
+    <div *ngIf="user.revenue" class="col-sm-4 revenue">
+      <h1>Revenue: {{ user.revenue / 100 }}$</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3">
+      <!--left col-->
+      <div class="text-center">
+        <!-- <img
+          src="https://api.adorable.io/avatars/285/abott@adorable.png"
+          class="avatar img-circle img-thumbnail"
+          alt="avatar"
+        />
+        <h6>Upload a different photo...</h6>
+        <input type="file" class="text-center center-block file-upload" /> -->
+
+        <img *ngIf="!isActiveInput" class="avatar img-circle img-thumbnail" [src]="user.profileUrl" />
+        <hpi-image-upload
+          (imageUploaded)="handleImageUpload($event)"
+          (imageError)="handleImageError()"
+          (imageLoadedToContainer)="handleImageLoad()"
+          (croppingCancelled)="cancel()"
+          [roundCropper]="true"
+          [aspectRatio]="1"
+        ></hpi-image-upload>
+
+      </div>
+      <div class="panel panel-default"></div>
+      <ul class="list-group">
+        <li class="list-group-item text-muted">
+          Activity <i class="fa fa-dashboard fa-1x"></i>
+        </li>
+        <li class="list-group-item text-right">
+          <span class="pull-left"><strong>Shares</strong></span> 125
+        </li>
+        <li class="list-group-item text-right">
+          <span class="pull-left"><strong>Likes</strong></span> 13
+        </li>
+        <li class="list-group-item text-right">
+          <span class="pull-left"><strong>Posts</strong></span> 37
+        </li>
+        <li class="list-group-item text-right">
+          <span class="pull-left"><strong>Followers</strong></span> 78
+        </li>
+      </ul>
+      <div class="panel panel-default">
+        <div class="panel-heading">Social Media</div>
+        <div class="panel-body">
+          <i class="fa fa-facebook fa-2x"></i>
+          <i class="fa fa-github fa-2x"></i>
+          <i class="fa fa-twitter fa-2x"></i>
+          <i class="fa fa-pinterest fa-2x"></i>
+          <i class="fa fa-google-plus fa-2x"></i>
+        </div>
+      </div>
+    </div>
+    <!--/col-3-->
+    <div class="col-sm-9">
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#settings">Settings</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="home">
+          <br />
+          <div class="form-group">
+            <div class="col-xs-6">
+              <label for="username">
+                <h4>Username</h4>
+              </label>
+              <input
+                readonly
+                [value]="user.username"
+                type="text"
+                class="form-control"
+                name="username"
+                id="username"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-xs-6">
+              <label for="email">
+                <h4>Email</h4>
+              </label>
+              <input
+                [(ngModel)]="user.email"
+                type="email"
+                class="form-control"
+                name="email"
+                id="email"
+                placeholder="you@email.com"
+                title="enter your email."
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-xs-6">
+              <label for="previousPassword">
+                <h4>Previous Password</h4>
+              </label>
+              <input
+                [(ngModel)]="previousPassword"
+                type="password"
+                class="form-control"
+                name="previousPassword"
+                id="previousPassword"
+                placeholder="Previous Password"
+                title="enter your previous password"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-6">
+              <label for="newPassword">
+                <h4>New Password</h4>
+              </label>
+              <input
+                [(ngModel)]="newPassword"
+                type="password"
+                class="form-control"
+                name="newPassword"
+                id="newPassword"
+                placeholder="New Password"
+                title="enter your new password if any."
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-xs-12">
+              <br />
+              <button
+                class="btn btn-lg btn-success"
+                type="submit"
+                (click)="updateUser()"
+              >
+                <i class="glyphicon glyphicon-ok-sign"></i> Save
+              </button>
+              <button class="btn btn-lg" type="reset" (click)="getUser()">
+                <i class="glyphicon glyphicon-repeat"></i> Reset
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- /tab-pane-->
+        <div class="tab-pane" id="settings">
+          <br />
+          <label>
+            <h4>Notify me when there are:</h4>
+          </label>
+          <div class="form-group">
+            <h6 class="col-xs-6">
+              <mat-toolbar>
+                <span>Promotions</span>
+                <span class="fill-space"></span>
+                <span><mat-slide-toggle>Enable</mat-slide-toggle></span>
+              </mat-toolbar>
+            </h6>
+          </div>
+          <div class="form-group">
+            <h6 class="col-xs-6">
+              <mat-toolbar>
+                <span>News & Events</span>
+                <span class="fill-space"></span>
+                <span><mat-slide-toggle>Enable</mat-slide-toggle></span>
+              </mat-toolbar>
+            </h6>
+          </div>
+          <div class="form-group">
+            <h6 class="col-xs-6">
+              <mat-toolbar>
+                <span>New reservation requests</span>
+                <span class="fill-space"></span>
+                <span><mat-slide-toggle>Enable</mat-slide-toggle></span>
+              </mat-toolbar>
+            </h6>
+          </div>
+          <div class="form-group">
+            <h6 class="col-xs-6">
+              <mat-toolbar>
+                <span>Accepted or declined booking requests</span>
+                <span class="fill-space"></span>
+                <span><mat-slide-toggle>Enable</mat-slide-toggle></span>
+              </mat-toolbar>
+            </h6>
+          </div>
+          <div class="form-group">
+            <h6 class="col-xs-6">
+              <mat-toolbar>
+                <span>Other messages from Happy Inn</span>
+                <span class="fill-space"></span>
+                <span><mat-slide-toggle>Enable</mat-slide-toggle></span>
+              </mat-toolbar>
+            </h6>
+          </div>
+          <div class="form-group">
+            <h6 class="col-xs-6">
+              <mat-toolbar>
+                <span>Articles about Happy Inn</span>
+                <span class="fill-space"></span>
+                <span><mat-slide-toggle>Enable</mat-slide-toggle></span>
+              </mat-toolbar>
+            </h6>
+          </div>
+        </div>
+        <!--/tab-pane -->
+        <!-- </div> -->
+        <!--/tab-pane-->
+      </div>
+      <!--/tab-content-->
+    </div>
+    <!--/col-9-->
+  </div>
+  <!--/row-->
+</div>

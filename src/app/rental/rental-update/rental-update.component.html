@@ -1,0 +1,148 @@
+<section id="rentalDetails" *ngIf="rental">
+  <div class="upper-section">
+    <div class="row">
+      <div class="col-md-6">
+        <hpi-editable-image
+          [(entity)]="rental"
+          [field]="'image'"
+          (entityUpdated)="updateRental(rental._id, $event)"
+        >
+        </hpi-editable-image>
+      </div>
+      <div class="col-md-6">
+        <hpi-map
+          [location]="rental.city + ', ' + rental.street"
+          [locationSubject]="locationSubject"
+        >
+        </hpi-map>
+      </div>
+    </div>
+  </div>
+
+  <div class="details-section">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="rental">
+          <h2 class="rental-type {{ rental.category }}">
+            Shared
+            <hpi-editable-select
+              [className]="'rental-shared'"
+              [style]="{ display: 'inline-block' }"
+              [(entity)]="rental"
+              [field]="'shared'"
+              [options]="[true, false]"
+              (entityUpdated)="updateRental(rental._id, $event)"
+            >
+            </hpi-editable-select>
+
+            <hpi-editable-select
+              [className]="'rental-category'"
+              [(entity)]="rental"
+              [field]="'category'"
+              [options]="categories"
+              (entityUpdated)="updateRental(rental._id, $event)"
+            >
+            </hpi-editable-select>
+          </h2>
+          <div class="rental-owner">
+            <img
+              src="https://api.adorable.io/avatars/285/abott@adorable.png"
+              alt=""
+            />
+            <span>{{ rental.user.username }}</span>
+          </div>
+
+          <hpi-editable-input
+            [className]="'rental-title'"
+            [(entity)]="rental"
+            [field]="'title'"
+            (entityUpdated)="updateRental(rental._id, $event)"
+          >
+          </hpi-editable-input>
+
+          <hpi-editable-input
+            [className]="'rental-city'"
+            [(entity)]="rental"
+            [field]="'city'"
+            [uppercase]="displayUppercaseLocation"
+            (entityUpdated)="updateRental(rental._id, $event)"
+          >
+          </hpi-editable-input>
+
+          <hpi-editable-input
+            [className]="'rental-street'"
+            [(entity)]="rental"
+            [field]="'street'"
+            [uppercase]="displayUppercaseLocation"
+            (entityUpdated)="updateRental(rental._id, $event)"
+          >
+          </hpi-editable-input>
+
+          <div class="rental-room-info">
+            $
+            <hpi-editable-input
+              [type]="'number'"
+              [style]="{ display: 'inline-block' }"
+              [(entity)]="rental"
+              [field]="'dailyRate'"
+              (entityUpdated)="updateRental(rental._id, $event)"
+            >
+            </hpi-editable-input>
+            per night 
+            <br/><br/>
+
+            <span>
+              <i class="fa fa-building"></i>
+              <hpi-editable-input
+                [type]="'number'"
+                [className]="'rental-bedrooms'"
+                [style]="{ display: 'inline-block' }"
+                [(entity)]="rental"
+                [field]="'bedrooms'"
+                (entityUpdated)="updateRental(rental._id, $event)"
+              >
+              </hpi-editable-input>
+              bedrooms
+            </span>
+
+            <span
+              ><i class="fa fa-user"></i>{{ bedroomsCapacity(4) }} guests</span
+            >
+            <span><i class="fa fa-bed"></i>{{ bedroomsCapacity(2) }} beds</span>
+          </div>
+
+          <hpi-editable-textarea
+            [className]="'rental-description'"
+            [(entity)]="rental"
+            [field]="'description'"
+            [cols]="'70'"
+            [rows]="'8'"
+            (entityUpdated)="updateRental(rental._id, $event)"
+          >
+          </hpi-editable-textarea>
+
+          <hr />
+          <div class="rental-assets">
+            <h3 class="title">Assets</h3>
+            <div class="row">
+              <div class="col-md-6">
+                <span><i class="fa fa-asterisk"></i> Cooling</span>
+                <span><i class="fa fa-thermometer"></i> Heating</span>
+                <span><i class="fa fa-location-arrow"></i> Iron</span>
+              </div>
+              <div class="col-md-6">
+                <span><i class="fa fa-desktop"></i> Working area</span>
+                <span><i class="fa fa-cube"></i> Washing machine</span>
+                <span><i class="fa fa-cube"></i> Dishwasher</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">        
+        <hpi-rental-detail-booking [rental]="rental">
+        </hpi-rental-detail-booking>
+      </div>
+    </div>
+  </div>
+</section>
